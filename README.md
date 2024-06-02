@@ -15,7 +15,40 @@ and the Flutter guide for
 
 A simple trpc client for Dart Applications. It's minimal, dependency-free (only depends on dart's own http library), and works perfectly with flutter.
 
-# TOOD
+## Features
+
+- Run Query and Mutate operations against your tRPC server (expressjs, Next.js, Cloudflare Worker, ...)
+
+## Usage
+
+You just need to instantiate the `TRPCClient` class with the trpc base endpoint. You can optionally pass headers:
+
+```dart
+final client = TRPCClient(
+    baseUri: "https://example.com/trpc",
+    headers: {"x-trpc-source": "Dart App"},
+  );
+```
+
+I recommend using it with riverpod, to make authentication easier:
+
+```dart
+@riverpod
+TRPCClient trpcClient(TrpcClientRef ref) {
+  final sessionId = ref.watch(sessionIdProvider);
+
+  final client = TRPCClient(
+    baseUri: "https://example.com/trpc",
+    headers: {"Authorization": "Bearer $sessionId"},
+  );
+
+  return client;
+}
+```
+
+## Additional information
+
+### TOOD
 
 - [ ] Better README.md
 - [ ] Support for batching
@@ -25,30 +58,3 @@ A simple trpc client for Dart Applications. It's minimal, dependency-free (only 
 - [ ] Somehow generate definitions from ts?
 
 PR's are welcome :D
-
-
-<!-- 
-## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
-
-```dart
-const like = 'sample';
-```
-
-## Additional information
-
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
--->
