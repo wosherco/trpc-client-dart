@@ -13,7 +13,7 @@ TRPCError parseError(dynamic elem) {
 }
 
 TRPCSuccessfulResponse parseSuccess<DataT extends dynamic>(dynamic elem) {
-  return TRPCSuccessfulResponse<DataT>(elem["result"]["data"]);
+  return TRPCSuccessfulResponse<DataT>(elem["result"]["data"]["json"]);
 }
 
 TRPCResponse parseSingleResponse<DataT extends dynamic>(
