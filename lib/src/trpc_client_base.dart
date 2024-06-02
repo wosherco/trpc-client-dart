@@ -103,6 +103,7 @@ class TRPCSuccessfulResponse<DataT extends dynamic> extends TRPCResponse {
 }
 
 class TRPCErrorResponse extends TRPCResponse {
+  @override
   final List<TRPCError> errors;
 
   const TRPCErrorResponse({
