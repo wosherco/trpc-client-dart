@@ -133,8 +133,8 @@ class TRPCClient {
         ],
       );
 
-  Future<TRPCResponse> query<DataT extends dynamic>(
-      String route, dynamic payload) {
+  Future<TRPCResponse> query<DataT extends dynamic>(String route,
+      {dynamic payload}) {
     final isPayload = payload != null;
 
     String url = "$baseUri/$route";
@@ -148,8 +148,8 @@ class TRPCClient {
         .catchError((error) => _errorRespose);
   }
 
-  Future<TRPCResponse> mutate<DataT extends dynamic>(
-      String route, dynamic payload) {
+  Future<TRPCResponse> mutate<DataT extends dynamic>(String route,
+      {dynamic payload}) {
     final encodedPayload = payload == null ? null : jsonEncode(payload);
     final uri = Uri.parse("$baseUri/$route");
 
