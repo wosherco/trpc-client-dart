@@ -12,11 +12,12 @@ TRPCError parseError(dynamic elem) {
   );
 }
 
-TRPCSuccessfulResponse parseSuccess<DataT extends dynamic>(dynamic elem) {
+TRPCSuccessfulResponse<DataT> parseSuccess<DataT extends dynamic>(
+    dynamic elem) {
   return TRPCSuccessfulResponse<DataT>(elem["result"]["data"]["json"]);
 }
 
-TRPCResponse parseSingleResponse<DataT extends dynamic>(
+TRPCResponse<DataT> parseSingleResponse<DataT extends dynamic>(
   Response response,
 ) {
   if (response.statusCode >= 500) {

@@ -82,7 +82,7 @@ enum TRPCErrorCode {
   }
 }
 
-abstract class TRPCResponse {
+abstract class TRPCResponse<DataT extends dynamic> {
   final bool isError;
 
   const TRPCResponse({required this.isError});
@@ -91,18 +91,19 @@ abstract class TRPCResponse {
       ? (this as TRPCErrorResponse).errors
       : throw InvalidOperationException();
 
-  TRPCSuccessfulResponse get successResponse => !this.isError
-      ? (this as TRPCSuccessfulResponse)
+  TRPCSuccessfulResponse<DataT> get successResponse => !this.isError
+      ? (this as TRPCSuccessfulResponse<DataT>)
       : throw InvalidOperationException();
 }
 
-class TRPCSuccessfulResponse<DataT extends dynamic> extends TRPCResponse {
+class TRPCSuccessfulResponse<DataT extends dynamic>
+    extends TRPCResponse<DataT> {
   final DataT data;
 
   const TRPCSuccessfulResponse(this.data) : super(isError: false);
 }
 
-class TRPCErrorResponse extends TRPCResponse {
+class TRPCErrorResponse<DataT extends dynamic> extends TRPCResponse<DataT> {
   @override
   final List<TRPCError> errors;
 
@@ -137,18 +138,20 @@ class TRPCClient {
             ? baseUri.substring(0, baseUri.length - 1)
             : baseUri;
 
-  TRPCResponse get _errorRespose => TRPCErrorResponse(
-        errors: [
-          TRPCError(
-            message: "Interval Server Error",
-            errorCode: TRPCErrorCode.INTERNAL_SERVER_ERROR,
-            stack: "",
-            path: "",
-          ),
-        ],
-      );
+  TRPCResponse<T> _errorRespose<T extends dynamic>() {
+    return TRPCErrorResponse(
+      errors: [
+        TRPCError(
+          message: "Interval Server Error",
+          errorCode: TRPCErrorCode.INTERNAL_SERVER_ERROR,
+          stack: "",
+          path: "",
+        ),
+      ],
+    );
+  }
 
-  Future<TRPCResponse> query<DataT extends dynamic>(String route,
+  Future<TRPCResponse<DataT>> query<DataT extends dynamic>(String route,
       {dynamic payload}) {
     final isPayload = payload != null;
 
@@ -160,10 +163,10 @@ class TRPCClient {
     return http
         .get(Uri.parse(url), headers: this.headers)
         .then(parseSingleResponse<DataT>)
-        .catchError((error) => _errorRespose);
+        .catchError((error) => _errorRespose<DataT>());
   }
 
-  Future<TRPCResponse> mutate<DataT extends dynamic>(String route,
+  Future<TRPCResponse<DataT>> mutate<DataT extends dynamic>(String route,
       {dynamic payload}) {
     final encodedPayload = payload == null ? null : jsonEncode(payload);
     final uri = Uri.parse("$baseUri/$route");
@@ -175,6 +178,6 @@ class TRPCClient {
           body: encodedPayload,
         )
         .then(parseSingleResponse<DataT>)
-        .catchError((error) => _errorRespose);
+        .catchError((error) => _errorRespose<DataT>());
   }
 }
