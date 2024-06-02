@@ -5,6 +5,13 @@ import 'package:http/http.dart' as http;
 import 'package:trpc_client/src/parser.dart';
 import 'package:trpc_client/src/utils.dart';
 
+class InvalidOperationException implements Exception {
+  const InvalidOperationException();
+
+  @override
+  String toString() => 'InvalidOperationException';
+}
+
 enum TRPCErrorCode {
   PARSE_ERROR(errorCode: "PARSE_ERROR", httpCode: 400, jsonRpcCode: -32700),
   BAD_REQUEST(errorCode: "BAD_REQUEST", httpCode: 400, jsonRpcCode: -32600),
@@ -80,6 +87,14 @@ abstract class TRPCResponse {
   final bool isError;
 
   const TRPCResponse({required this.isError});
+
+  List<TRPCError> get errors => this.isError
+      ? (this as TRPCErrorResponse).errors
+      : throw InvalidOperationException();
+
+  TRPCSuccessfulResponse get successResponse => !this.isError
+      ? (this as TRPCSuccessfulResponse)
+      : throw InvalidOperationException();
 }
 
 class TRPCSuccessfulResponse<DataT extends dynamic> extends TRPCResponse {
