@@ -24,11 +24,29 @@ A simple trpc client for Dart Applications. It's minimal, dependency-free (only 
 You just need to instantiate the `TRPCClient` class with the trpc base endpoint. You can optionally pass headers:
 
 ```dart
+// Import package
+import "package:trpc_client/trpc_client.dart";
+
+// Instantiate the client
 final client = TRPCClient(
   baseUri: "https://example.com/trpc",
   headers: {"x-trpc-source": "Dart App"},
 );
 ```
+
+Now you can query, and mutate, with type safety:
+
+```dart
+final response = await client.query<Map<String, dynamic>>("route", payload: {"userId": "example"});
+
+if (response.isError) {
+  print(response.errors);
+} else {
+  final data = response.successResponse.data;
+}
+```
+
+### Usage with Riverpod (Provider)
 
 I recommend using it with riverpod, to make authentication easier:
 
