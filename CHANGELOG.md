@@ -10,3 +10,7 @@
 
 - Fixed wrong repo url
 - Better usage example
+
+## 0.2.0
+
+- Fixed serialization of payloads
