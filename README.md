@@ -25,9 +25,9 @@ You just need to instantiate the `TRPCClient` class with the trpc base endpoint.
 
 ```dart
 final client = TRPCClient(
-    baseUri: "https://example.com/trpc",
-    headers: {"x-trpc-source": "Dart App"},
-  );
+  baseUri: "https://example.com/trpc",
+  headers: {"x-trpc-source": "Dart App"},
+);
 ```
 
 I recommend using it with riverpod, to make authentication easier:
