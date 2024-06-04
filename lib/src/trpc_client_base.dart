@@ -129,6 +129,17 @@ class TRPCError {
   int get jsonRpcCode => this.errorCode.jsonRpcCode;
 }
 
+class TRPCException implements Exception {
+  final TRPCError error;
+
+  const TRPCException(this.error);
+
+  @override
+  String toString() {
+    return "TRPCException: ${error.message}";
+  }
+}
+
 class TRPCClient {
   String baseUri;
   Map<String, String>? headers;
