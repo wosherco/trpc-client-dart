@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:trpc_client/src/parser.dart';
@@ -141,11 +142,13 @@ class TRPCException implements Exception {
 }
 
 class TRPCClient {
+  http.Client client;
   String baseUri;
   Map<String, String>? headers;
 
-  TRPCClient({required String baseUri, this.headers})
-      : baseUri = baseUri.endsWith("/")
+  TRPCClient({required String baseUri, this.headers, http.Client? client})
+      : client = client ?? http.Client(),
+        baseUri = baseUri.endsWith("/")
             ? baseUri.substring(0, baseUri.length - 1)
             : baseUri;
 
@@ -171,7 +174,7 @@ class TRPCClient {
       url += "?input=${serializeQueryInput(payload)}";
     }
 
-    return http
+    return client
         .get(Uri.parse(url), headers: this.headers)
         .then(parseSingleResponse<DataT>)
         .catchError((error) => _errorRespose<DataT>());
@@ -182,7 +185,7 @@ class TRPCClient {
     final encodedPayload = payload == null ? null : jsonEncode(payload);
     final uri = Uri.parse("$baseUri/$route");
 
-    return http
+    return client
         .post(
           uri,
           headers: this.headers,
