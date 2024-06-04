@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:queue/queue.dart';
 import 'package:trpc_client/src/parser.dart';
 import 'package:trpc_client/src/utils.dart';
 
@@ -156,7 +158,7 @@ class TRPCClient {
     return TRPCErrorResponse(
       errors: [
         TRPCError(
-          message: "Interval Server Error",
+          message: "Internal Client Error",
           errorCode: TRPCErrorCode.INTERNAL_SERVER_ERROR,
           stack: "",
           path: "",
@@ -182,19 +184,90 @@ class TRPCClient {
 
   Future<TRPCResponse<DataT>> mutate<DataT extends dynamic>(String route,
       {dynamic payload}) {
+    final mutateInstance = useMutation<DataT>(route);
+
+    return mutateInstance.mutateAsync(payload);
+  }
+
+  TRPCMutationClient<DataT> useMutation<DataT extends dynamic>(
+    String route, {
+    ContextCallbackType? onSuccess,
+    ContextCallbackType? onError,
+  }) {
     final headers = this.headers ?? {};
     headers["Content-Type"] = "application/json";
 
-    final encodedPayload = payload == null ? null : jsonEncode(payload);
     final uri = Uri.parse("$baseUri/$route");
 
-    return client
-        .post(
-          uri,
-          headers: headers,
-          body: encodedPayload,
-        )
-        .then(parseSingleResponse<DataT>)
-        .catchError((error) => _errorRespose<DataT>());
+    return TRPCMutationClient<DataT>._(this.client, uri, headers);
   }
+}
+
+class TRPCMutationContext<DataT, PayloadT> {
+  PayloadT payload;
+  TRPCResponse<DataT> response;
+
+  TRPCMutationContext._(this.payload, this.response);
+}
+
+typedef ContextCallbackType<DataT> = FutureOr<void> Function(
+    TRPCMutationContext<DataT, dynamic> context);
+
+class TRPCMutationClient<DataT extends dynamic> {
+  http.Client client;
+  Uri uri;
+  Map<String, String> headers;
+  ContextCallbackType<DataT>? onSuccess;
+  ContextCallbackType<DataT>? onError;
+
+  TRPCResponse<DataT>? _latestResponse;
+
+  Queue concurrencyQueue = Queue();
+  int _queueLength = 0;
+
+  TRPCMutationClient._(
+    this.client,
+    this.uri,
+    this.headers, {
+    this.onSuccess,
+    this.onError,
+  });
+
+  Future<TRPCResponse<DataT>> _runMutate(dynamic payload) async {
+    final req = await client.post(
+      uri,
+      headers: headers,
+      body: serializeInput(payload, false),
+    );
+
+    final res = parseSingleResponse<DataT>(req);
+    _latestResponse = res;
+
+    final context = TRPCMutationContext._(payload, res);
+
+    if (res.isError && this.onError != null) {
+      this.onError!(context);
+    } else if (!res.isError && this.onSuccess != null) {
+      this.onSuccess!(context);
+    }
+
+    _queueLength--;
+
+    return res;
+  }
+
+  void mutate(dynamic payload) {
+    _queueLength++;
+    concurrencyQueue.add(() async => _runMutate(payload));
+  }
+
+  Future<TRPCResponse<DataT>> mutateAsync(dynamic payload) {
+    _queueLength++;
+    return concurrencyQueue.add(() async => _runMutate(payload));
+  }
+
+  bool get isIdle => _queueLength == 0;
+  bool get isLoading => _queueLength != 0;
+  bool get isError => _latestResponse?.isError ?? false;
+  bool get isSuccess => !(_latestResponse?.isError ?? true);
 }
