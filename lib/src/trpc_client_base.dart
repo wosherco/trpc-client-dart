@@ -182,6 +182,9 @@ class TRPCClient {
 
   Future<TRPCResponse<DataT>> mutate<DataT extends dynamic>(String route,
       {dynamic payload}) {
+    final headers = this.headers ?? {};
+    headers["Content-Type"] = "application/json";
+
     final encodedPayload = payload == null ? null : jsonEncode(payload);
     final uri = Uri.parse("$baseUri/$route");
 
