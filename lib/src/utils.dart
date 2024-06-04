@@ -1,12 +1,14 @@
 import 'dart:convert';
 
-String serializeQueryInput(dynamic payload) {
+String serializeInput(dynamic payload, bool urlEncode) {
   final encodedJson = jsonEncode({"json": payload});
-  final urlEncodedeJson = Uri.encodeComponent(encodedJson);
-  return urlEncodedeJson;
+  if (urlEncode) {
+    return Uri.encodeComponent(encodedJson);
+  }
+  return encodedJson;
 }
 
-String serializeQueryInputBatch(List<dynamic> payload) {
+String serializeInputBatch(List<dynamic> payload, bool urlEncode) {
   final input = {};
 
   for (var i = 0; i < payload.length; i++) {
@@ -14,6 +16,8 @@ String serializeQueryInputBatch(List<dynamic> payload) {
   }
 
   final encodedJson = jsonEncode(input);
-  final urlEncodedeJson = Uri.encodeComponent(encodedJson);
-  return urlEncodedeJson;
+  if (urlEncode) {
+    return Uri.encodeComponent(encodedJson);
+  }
+  return encodedJson;
 }

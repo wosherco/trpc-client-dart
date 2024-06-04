@@ -171,7 +171,7 @@ class TRPCClient {
 
     String url = "$baseUri/$route";
     if (isPayload) {
-      url += "?input=${serializeQueryInput(payload)}";
+      url += "?input=${serializeInput(payload, true)}";
     }
 
     return client
@@ -191,7 +191,7 @@ class TRPCClient {
     return client
         .post(
           uri,
-          headers: this.headers,
+          headers: headers,
           body: encodedPayload,
         )
         .then(parseSingleResponse<DataT>)
