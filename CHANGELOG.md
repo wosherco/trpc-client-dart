@@ -14,3 +14,8 @@
 ## 0.2.0
 
 - Fixed serialization of payloads
+
+## 0.3.0
+
+- Fixed serialization for mutations
+- Added MutationClient, to provide a similar customization to ts' trpc client
