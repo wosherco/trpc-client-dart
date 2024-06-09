@@ -19,3 +19,7 @@
 
 - Fixed serialization for mutations
 - Added MutationClient, to provide a similar customization to ts' trpc client
+
+## 0.3.1
+
+- Removed wrong throw
