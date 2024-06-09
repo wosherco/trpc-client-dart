@@ -23,3 +23,7 @@
 ## 0.3.1
 
 - Removed wrong throw
+
+## 0.3.2
+
+- Decoding with utf8
