@@ -1,19 +1,19 @@
-<!-- 
+<!--
 This README describes the package. If you publish this package to pub.dev,
 this README's contents appear on the landing page for your package.
 
 For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages). 
+[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
 
 For general information about developing packages, see the Dart guide for
 [creating packages](https://dart.dev/guides/libraries/create-library-packages)
 and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages). 
+[developing packages and plugins](https://flutter.dev/developing-packages).
 -->
 
 # trpc_client
 
-A simple trpc client for Dart Applications. It's minimal, dependency-free (only depends on dart's own http library), and works perfectly with flutter.
+A simple trpc client for Dart Applications. It's minimal, just two dependencies (dart's own http library, and [queues](https://pub.dev/packages/queue)). Ideal for flutter apps that use tRPC as a backend.
 
 ## Features
 
@@ -63,16 +63,3 @@ TRPCClient trpcClient(TrpcClientRef ref) {
   return client;
 }
 ```
-
-## Additional information
-
-### TOOD
-
-- [ ] Better README.md
-- [ ] Support for batching
-- [ ] Write tests with real tRPC server
-- [ ] Linter Rules
-- [ ] Docs?
-- [ ] Somehow generate definitions from ts?
-
-PR's are welcome :D

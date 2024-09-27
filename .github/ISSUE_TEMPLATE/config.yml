@@ -1,0 +1,7 @@
+contact_links:
+  - name: Feature request
+    url: https://insigh.to/b/trpc-client-dart
+    about: Simple feature requests go on insigh.to.
+  - name: Ask a question
+    url: https://github.com/wosherco/trpc-client-dart/discussions
+    about: Ask questions and discuss with other community members
