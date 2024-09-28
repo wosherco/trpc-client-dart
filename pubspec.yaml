@@ -1,7 +1,9 @@
 name: trpc_client
 description: A minimal trpc client for Dart and Flutter.
-version: 0.3.2
+version: 0.3.3
 repository: https://github.com/wosherco/trpc-client-dart
+issue_tracker: https://github.com/wosherco/trpc-client-dart/issues
+homepage: https://github.com/wosherco/trpc-client-dart
 
 environment:
   sdk: ^3.4.0
