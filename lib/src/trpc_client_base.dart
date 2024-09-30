@@ -83,20 +83,42 @@ enum TRPCErrorCode {
   }
 }
 
+/// The base class for all TRPC responses.
 abstract class TRPCResponse<DataT extends dynamic> {
+  /// Whether the response is an error.
   final bool isError;
 
   const TRPCResponse({required this.isError});
 
+  /// Get the errors if the response is an error.
+  ///
+  /// If the response is not an error, it will throw an [InvalidOperationException].
   List<TRPCError> get errors => this.isError
       ? (this as TRPCErrorResponse).errors
       : throw InvalidOperationException();
 
+  /// Get the data if the response is successful.
+  ///
+  /// If the response is an error, it will throw an [InvalidOperationException].
+  /// If you want to unwrap the response, use the [unwrap] method instead.
   TRPCSuccessfulResponse<DataT> get successResponse => !this.isError
       ? (this as TRPCSuccessfulResponse<DataT>)
       : throw InvalidOperationException();
+
+  /// Unwrap the response.
+  ///
+  /// If the response contains an error, it will throw a [TRPCException] with the TRPC error (the first one if multiple errors).
+  /// If no error is present, it will return the data as a [TRPCSuccessfulResponse].
+  DataT unwrap() {
+    if (this.isError) {
+      throw TRPCException(this.errors.first);
+    }
+
+    return this.successResponse.data;
+  }
 }
 
+/// TRPC Response for successful requests.
 class TRPCSuccessfulResponse<DataT extends dynamic>
     extends TRPCResponse<DataT> {
   final DataT data;
@@ -104,6 +126,7 @@ class TRPCSuccessfulResponse<DataT extends dynamic>
   const TRPCSuccessfulResponse(this.data) : super(isError: false);
 }
 
+/// TRPC Response for error requests.
 class TRPCErrorResponse<DataT extends dynamic> extends TRPCResponse<DataT> {
   @override
   final List<TRPCError> errors;
@@ -119,11 +142,12 @@ class TRPCError {
   final String stack;
   final String path;
 
-  const TRPCError(
-      {required this.message,
-      required this.errorCode,
-      required this.stack,
-      required this.path});
+  const TRPCError({
+    required this.message,
+    required this.errorCode,
+    required this.stack,
+    required this.path,
+  });
 
   int get httpCode => this.errorCode.httpCode;
 
@@ -141,8 +165,14 @@ class TRPCException implements Exception {
   }
 }
 
+/// The base class for all TRPC clients.
 class TRPCClient {
+  /// The HTTP client used to make requests.
   http.Client client;
+
+  /// The base URI for the TRPC server. It will be used to make requests.
+  ///
+  /// For example, if the base URI is `https://example.com/trpc`, the client will make requests to `https://example.com/trpc/auth.getUser`.
   String baseUri;
   Map<String, String>? headers;
 
@@ -165,6 +195,9 @@ class TRPCClient {
     );
   }
 
+  /// Make a query request to the TRPC server.
+  ///
+  /// Won't throw any errors, they are contained inside [TRPCResponse]. Check out the [TRPCResponse] class for more information.
   Future<TRPCResponse<DataT>> query<DataT extends dynamic>(String route,
       {dynamic payload}) {
     final isPayload = payload != null;
@@ -180,6 +213,10 @@ class TRPCClient {
         .catchError((error) => _errorRespose<DataT>());
   }
 
+  /// Make a mutation request to the TRPC server.
+  ///
+  /// Won't throw any errors, they are contained inside [TRPCResponse]. Check out the [TRPCResponse] class for more information.
+  /// If you want to create the mutation request and run it later, check out the [useMutation] method.
   Future<TRPCResponse<DataT>> mutate<DataT extends dynamic>(String route,
       {dynamic payload}) {
     final mutateInstance = useMutation<DataT>(route);
@@ -187,6 +224,9 @@ class TRPCClient {
     return mutateInstance.mutateAsync(payload);
   }
 
+  /// Create a mutation request to the TRPC server. Doesn't run the request! For that use the [mutate] method.
+  ///
+  /// Returns a [TRPCMutationClient] instance that can be used to run the mutation request to be done.
   TRPCMutationClient<DataT> useMutation<DataT extends dynamic>(
     String route, {
     ContextCallbackType? onSuccess,
@@ -211,6 +251,7 @@ class TRPCMutationContext<DataT, PayloadT> {
 typedef ContextCallbackType<DataT> = FutureOr<void> Function(
     TRPCMutationContext<DataT, dynamic> context);
 
+/// A react-query like context for mutations.
 class TRPCMutationClient<DataT extends dynamic> {
   http.Client client;
   Uri uri;
@@ -254,18 +295,27 @@ class TRPCMutationClient<DataT extends dynamic> {
     return res;
   }
 
+  /// Run the mutation request. Won't wait for the response, for that use the [mutateAsync] method.
   void mutate(dynamic payload) {
     _queueLength++;
     concurrencyQueue.add(() async => _runMutate(payload));
   }
 
+  /// Run the mutation request and wait for the response. If you don't want to wait, use the [mutate] method.
   Future<TRPCResponse<DataT>> mutateAsync(dynamic payload) {
     _queueLength++;
     return concurrencyQueue.add(() async => _runMutate(payload));
   }
 
+  /// `true` if the client is idle. `false` if there's a request in progress.
   bool get isIdle => _queueLength == 0;
+
+  /// `true` if the client is in the middle of a request. `false` if there's no request in progress.
   bool get isLoading => _queueLength != 0;
+
+  /// `true` if the latest response is an error. `false` if it's a success.
   bool get isError => _latestResponse?.isError ?? false;
+
+  /// `true` if the latest response is a success. `false` if it's an error.
   bool get isSuccess => !(_latestResponse?.isError ?? true);
 }
