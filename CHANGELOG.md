@@ -27,3 +27,12 @@
 ## 0.3.2
 
 - Decoding with utf8
+
+## 0.3.3
+
+- Updated repo
+
+## 0.3.4
+
+- Added `unwrap` method to `TRPCResponse` to just grab the data and throw any TRPCErrors.
+- Documented some important parts of the library.
