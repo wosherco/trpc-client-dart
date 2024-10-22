@@ -1,5 +1,5 @@
 // Import package
-import "package:trpc_client/trpc_client.dart";
+import "../lib/trpc_client.dart";
 
 void main() async {
   // Instantiate the client

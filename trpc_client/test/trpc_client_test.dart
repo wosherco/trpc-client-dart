@@ -1,6 +1,6 @@
-import 'package:trpc_client/src/parser.dart';
-import 'package:trpc_client/src/utils.dart';
-import 'package:trpc_client/trpc_client.dart';
+import '../lib/src/parser.dart';
+import '../lib/src/utils.dart';
+import '../lib/trpc_client.dart';
 import 'package:test/test.dart';
 
 void main() {

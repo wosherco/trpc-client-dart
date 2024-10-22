@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:http/http.dart' as http;
 import 'package:queue/queue.dart';
-import 'package:trpc_client/src/parser.dart';
-import 'package:trpc_client/src/utils.dart';
+import 'parser.dart';
+import 'utils.dart';
 
 class InvalidOperationException implements Exception {
   const InvalidOperationException();

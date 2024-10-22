@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart';
-import 'package:trpc_client/src/trpc_client_base.dart';
+import 'trpc_client_base.dart';
 
 TRPCError parseError(dynamic elem) {
   return TRPCError(
