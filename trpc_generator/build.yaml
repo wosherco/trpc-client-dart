@@ -1,0 +1,35 @@
+targets:
+  $default:
+    builders:
+      trpc_client|trpcGeneratorBuilder:
+        options:
+          output_dir: lib/generated/
+          input_json_path: lib/config/routes.json
+          defaultJsonFilePath: "lib/generated/trpc_routes.json"  # fallback option
+          mainkey: "routeMap" # set the key for the map list entry
+        generate_for:
+          - lib/trpc_routes.dart
+        enabled: True
+      freezed:
+        generate_for:
+          - lib/generated/trpc_routes.dart
+        enabled: true
+
+
+builders:
+  trpcGeneratorBuilder:
+    import: "package:trpc_client/trpc_generator_builder.dart"  # The file where your generator lives.
+    builder_factories: [ "trpcGeneratorBuilder" ]  # Points to the builder factory function.
+    build_extensions: {".json": [".dart"]}  # Specifies that .dart files will generate .trpc.dart.
+    auto_apply: dependents  # Automatically applies when dependent files change.
+    build_to: source  # Ensures the generated code is part of the source directory.
+    applies_builders: ["freezed|freezed"]
+  freezed:
+    import: "package:freezed/builder.dart"  # Points to the freezed builder.
+    builder_factories: ["freezed"]
+    build_extensions: {".dart": [".freezed.dart"]}
+    auto_apply: dependents
+    build_to: source
+    applies_builders: ["source_gen|combining_builder"]
+
+
