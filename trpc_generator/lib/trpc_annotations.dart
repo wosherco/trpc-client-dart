@@ -15,28 +15,36 @@
 //     this.freezedGeneratedfor = const ['lib/generated/trpc_routes.dart'],
 //   });
 // }
-class TrpcBuilderConfig {
-  final String outputDir;
-  final String inputJsonPath;
-  final String defaultJsonFilePath;
-  final String mainKey;
-  final List<String> generateFor;
-  final bool generateForAllRoutes;
-  final String classPrefix;
-  final String indentation;
+// class TrpcBuilderConfig {
+//   final String outputDir;
+//   final String inputJsonPath;
+//   final String defaultJsonFilePath;
+//   final String mainKey;
+//   final List<String> generateFor;
+//   final bool generateForAllRoutes;
+//   final String classPrefix;
+//   final String indentation;
 
   
 
-  const TrpcBuilderConfig({
-    required this.outputDir,
-    required this.inputJsonPath,
-    required this.defaultJsonFilePath,
-    required this.mainKey,
-    required this.generateFor,
-    this.generateForAllRoutes = true, // default value
-    this.classPrefix = '', // default value
-    this.indentation = '  ', // default value
+//   const TrpcBuilderConfig({
+//     required this.outputDir,
+//     required this.inputJsonPath,
+//     required this.defaultJsonFilePath,
+//     required this.mainKey,
+//     required this.generateFor,
+//     this.generateForAllRoutes = true, // default value
+//     this.classPrefix = '', // default value
+//     this.indentation = '  ', // default value
     
+//   });
+// }
+
+class TrpcGeneratorAnnotation {
+  final String jsonFilePath;
+
+  const TrpcGeneratorAnnotation({
+    required this.jsonFilePath,
   });
 }
 

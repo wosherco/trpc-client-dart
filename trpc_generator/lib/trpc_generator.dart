@@ -7,14 +7,11 @@ export 'src/trpc_client_base.dart';
 
 import 'dart:convert';
 import 'dart:io';
-import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
 import 'package:source_gen/source_gen.dart';
 import 'package:trpc_generator/trpc_annotations.dart';
 
-
 class TrpcGenerator extends Generator {
-  final String jsonFilePath;
   final String outputDir;
   final String mainKey;
   final bool generateForAllRoutes;
@@ -22,7 +19,6 @@ class TrpcGenerator extends Generator {
   final String indentation;
 
   TrpcGenerator({
-    required this.jsonFilePath,
     required this.outputDir,
     required this.mainKey,
     this.generateForAllRoutes = true, // Option to generate for all routes
@@ -31,8 +27,19 @@ class TrpcGenerator extends Generator {
   });
 
   @override
-  String generate(LibraryReader library, BuildStep buildStep) {
+  Future<String> generate(LibraryReader library, BuildStep buildStep) async {
+    final annotatedClass = library
+        .annotatedWith(const TypeChecker.fromRuntime(TrpcGeneratorAnnotation))
+        .firstOrNull;
 
+    if (annotatedClass == null) {
+      throw StateError('No class found with TrpcGeneratorAnnotation');
+    }
+
+    final annotation = annotatedClass.annotation;
+    final jsonFilePath = annotation.read('jsonFilePath').stringValue;
+
+    // Use the jsonFilePath from the annotation
     final jsonFile = File(jsonFilePath);
 
     try {
@@ -44,6 +51,7 @@ class TrpcGenerator extends Generator {
       final Map<String, dynamic> routerData = json.decode(jsonString);
 
       // Validate router data
+      print('header thing');
       validateRouterData(routerData);
 
       StringBuffer output = StringBuffer();
@@ -58,16 +66,18 @@ class TrpcGenerator extends Generator {
             final routeName = route['path'].replaceAll('.', '_');
             final inputSchema = route['input'];
             final outputSchema = route['output'];
-
+            print('alright');
             _generateFreezedClass(
                 "$classPrefix${routeName}Input", inputSchema, output);
             _generateFreezedClass(
                 "$classPrefix${routeName}Output", outputSchema, output);
+            print('mabr');
           }
         }
       }
-
+      print('am hereby freezed');
       _generateTrpcRouterClass(routerData, output, mainKey);
+      print('we are now freezed');
 
       final outputFile = File('$outputDir/trpc_routes.dart');
       outputFile.writeAsStringSync(output.toString());
@@ -89,7 +99,7 @@ class TrpcGenerator extends Generator {
       throw FormatException('Invalid router data: Data cannot be empty.');
     }
     // Check for required fields like 'routeMap'
-    if (!routerData.containsKey('routeMap')) {
+    if (!routerData.containsKey(mainKey)) {
       throw FormatException('Invalid router data: Missing "routeMap" field.');
     }
   }
@@ -189,5 +199,4 @@ class TrpcGenerator extends Generator {
     if (input.isEmpty) return input;
     return input[0].toUpperCase() + input.substring(1);
   }
-
 }

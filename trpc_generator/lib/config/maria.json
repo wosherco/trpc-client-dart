@@ -1,0 +1,105 @@
+{
+  "routeMap": [
+    {
+      "getUser": {
+        "path": "getUser",
+        "type": "query",
+        "input": [
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        ],
+        "output": [
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "The ID of the user (optional for creation)."
+              },
+              "name": {
+                "type": "string",
+                "description": "The name of the user."
+              },
+              "email": {
+                "type": "string",
+                "description": "The email of the user."
+              }
+            },
+            "required": [
+              "name",
+              "email"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        ]
+      },
+      "createUser": {
+        "path": "createUser",
+        "type": "mutation",
+        "input": [
+          {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "The name of the user."
+              },
+              "email": {
+                "type": "string",
+                "description": "The email of the user."
+              }
+            },
+            "required": [
+              "name",
+              "email"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        ],
+        "output": [
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "The ID of the user (optional for creation)."
+              },
+              "name": {
+                "type": "string",
+                "description": "The name of the user."
+              },
+              "email": {
+                "type": "string",
+                "description": "The email of the user."
+              },
+              "success": {
+                "type": "boolean",
+                "description": "Indicates if the user was created successfully."
+              }
+            },
+            "required": [
+              "name",
+              "email",
+              "success"
+            ],
+            "additionalProperties": false,
+            "$schema": "http://json-schema.org/draft-07/schema#"
+          }
+        ]
+      }
+    }
+  ]
+}
