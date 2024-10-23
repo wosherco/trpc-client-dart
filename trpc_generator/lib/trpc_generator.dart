@@ -7,8 +7,11 @@ export 'src/trpc_client_base.dart';
 
 import 'dart:convert';
 import 'dart:io';
+import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
 import 'package:source_gen/source_gen.dart';
+import 'package:trpc_generator/trpc_annotations.dart';
+
 
 class TrpcGenerator extends Generator {
   final String jsonFilePath;
@@ -29,6 +32,7 @@ class TrpcGenerator extends Generator {
 
   @override
   String generate(LibraryReader library, BuildStep buildStep) {
+
     final jsonFile = File(jsonFilePath);
 
     try {
@@ -185,4 +189,5 @@ class TrpcGenerator extends Generator {
     if (input.isEmpty) return input;
     return input[0].toUpperCase() + input.substring(1);
   }
+
 }
