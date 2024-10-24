@@ -1,4 +1,5 @@
 name: trpc_client
 
 packages:
+  - apps/**
   - packages/**
