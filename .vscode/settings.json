@@ -1,0 +1,7 @@
+{
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.expand": false,
+  "explorer.fileNesting.patterns": {
+    "*.dart": "${capture}.router.dart, ${capture}.models.dart, ${capture}.freezed.dart, ${capture}.g.dart"
+  }
+}
