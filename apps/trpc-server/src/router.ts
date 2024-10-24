@@ -1,5 +1,6 @@
 import { initTRPC } from "@trpc/server";
 import superjson from "superjson";
+import { z } from "zod";
 
 /**
  * Initialization of tRPC backend
@@ -17,7 +18,13 @@ export const router = t.router;
 export const publicProcedure = t.procedure;
 
 export const appRouter = router({
-  hello: publicProcedure.query(() => ({ hello: "world" })),
+  hello: publicProcedure
+    .input(
+      z.object({
+        hello: z.string(),
+      })
+    )
+    .query(() => ({ hello: "world" })),
 });
 
 export type AppRouter = typeof appRouter;

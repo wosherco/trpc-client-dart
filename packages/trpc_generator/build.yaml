@@ -8,7 +8,7 @@ builders:
   trpcGenerator:
     runs_before: ["freezed"]
     import: "package:trpc_client_generator/src/builder.dart" # The file where your generator lives.
-    builder_factories: ["trpcGeneratorBuilder"] # Points to the builder factory function.
+    builder_factories: ["generateTRPCRoutes"] # Points to the builder factory function.
     build_extensions: { ".dart": [".trpc.dart"] } # Specifies that .dart files will generate .trpc.dart.
     auto_apply: dependents # Automatically applies when dependent files change.
     build_to: source # Ensures the generated code is part of the source directory.

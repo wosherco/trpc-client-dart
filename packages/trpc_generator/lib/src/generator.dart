@@ -44,7 +44,7 @@ class TRPCRoutesBuilder extends GeneratorForAnnotation<TrpcGenerator> {
 
     // Generate the header
     StringBuffer output = StringBuffer();
-    _generateHeader(output, filename);
+    // _generateHeader(output, filename);
 
     // Generating Freezed classes for inputs and outputs
     for (var subRouteEntry in routerData.entries) {
