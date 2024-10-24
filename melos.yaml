@@ -1,0 +1,4 @@
+name: trpc_client
+
+packages:
+  - packages/**
