@@ -25,6 +25,14 @@ export const appRouter = router({
       })
     )
     .query(() => ({ hello: "world" })),
+  nested: router({
+    hello2: publicProcedure.mutation(() => ({ hello: "world" })),
+    nestedx2: router({
+      hello7: publicProcedure
+        .output(z.object({ hello: z.boolean() }))
+        .query(() => ({ hello: true })),
+    }),
+  }),
 });
 
 export type AppRouter = typeof appRouter;

@@ -5,9 +5,8 @@ import 'package:build/build.dart';
 import 'package:build/src/builder/build_step.dart';
 import 'package:source_gen/source_gen.dart';
 import 'package:trpc_client_annotations/trpc_client_annotations.dart';
-import 'package:path/path.dart' as path;
 
-class TRPCRoutesBuilder extends GeneratorForAnnotation<TrpcGenerator> {
+class TRPCModelsBuilder extends GeneratorForAnnotation<TrpcGenerator> {
   final String classPrefix = "";
   final String indentation = "  ";
 
@@ -15,10 +14,6 @@ class TRPCRoutesBuilder extends GeneratorForAnnotation<TrpcGenerator> {
   generateForAnnotatedElement(
       Element element, ConstantReader annotation, BuildStep buildStep) async {
     final routesFilePath = annotation.read('routesFilePath').stringValue;
-
-    // Get the filename of the current file being processed
-    final currentFilePath = buildStep.inputId.path;
-    final filename = path.basenameWithoutExtension(currentFilePath);
 
     // Get the class name of the current file being processed
     final className = element.name;
@@ -44,7 +39,6 @@ class TRPCRoutesBuilder extends GeneratorForAnnotation<TrpcGenerator> {
 
     // Generate the header
     StringBuffer output = StringBuffer();
-    // _generateHeader(output, filename);
 
     // Generating Freezed classes for inputs and outputs
     for (var subRouteEntry in routerData.entries) {
@@ -65,8 +59,6 @@ class TRPCRoutesBuilder extends GeneratorForAnnotation<TrpcGenerator> {
             "$classPrefix${routeName}Output", outputSchema, output);
       }
     }
-
-    _generateTrpcRouterClass(routerData, output, className);
 
     return output.toString();
   }
@@ -130,40 +122,6 @@ class TRPCRoutesBuilder extends GeneratorForAnnotation<TrpcGenerator> {
       default:
         throw FormatException('Unsupported Zod type: ${zodType['type']}');
     }
-  }
-
-  // Generate header for the output file
-  void _generateHeader(StringBuffer output, String filename) {
-    output.writeln(
-        "import 'package:freezed_annotation/freezed_annotation.dart';");
-    output.writeln();
-    output.writeln("part '$filename.freezed.dart';");
-    output.writeln("part '$filename.g.dart';");
-    output.writeln();
-  }
-
-  // Generate TRPC Router class
-  void _generateTrpcRouterClass(
-      Map<String, dynamic> routeMap, StringBuffer output, String className) {
-    output.writeln("class $className {");
-    for (var subRouteEntry in routeMap.entries) {
-      final route = subRouteEntry.value;
-      final routeName = route['path']?.replaceAll('.', '_') ?? 'UnnamedRoute';
-      final inputType =
-          route.containsKey('input') ? "$classPrefix${routeName}Input" : "void";
-      final outputType = route.containsKey('output')
-          ? "$classPrefix${routeName}Output"
-          : "void";
-
-      output.writeln(
-          "${indentation}Future<${capitalizeFirstLetter(outputType)}> $routeName(${capitalizeFirstLetter(inputType)} input) async {");
-      output
-          .writeln("${indentation * 2}// Implement the actual TRPC call here");
-      output.writeln("${indentation * 2}throw UnimplementedError();");
-      output.writeln("$indentation}");
-      output.writeln();
-    }
-    output.writeln("}");
   }
 
   String capitalizeFirstLetter(String input) {

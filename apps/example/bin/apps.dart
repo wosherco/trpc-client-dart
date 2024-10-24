@@ -1,5 +1,8 @@
-import 'package:apps/apps.dart' as apps;
+import 'package:trpc_client/trpc_client.dart';
+import 'package:trpc_client_example/trpc.dart';
 
-void main(List<String> arguments) {
-  print('Hello world: ${apps.calculate()}!');
+void main() {
+  final client = RoutedTrpcClient(TRPCClient(baseUri: "http://localhost:3000"));
+
+  client.hello.mutate(HelloInput(hello: "hola"));
 }

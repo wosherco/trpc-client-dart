@@ -162,3 +162,166 @@ abstract class _HelloInput implements HelloInput {
   _$$HelloInputImplCopyWith<_$HelloInputImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+Nested_nestedx2_hello7Output _$Nested_nestedx2_hello7OutputFromJson(
+    Map<String, dynamic> json) {
+  return _Nested_nestedx2_hello7Output.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Nested_nestedx2_hello7Output {
+  bool get hello => throw _privateConstructorUsedError;
+
+  /// Serializes this Nested_nestedx2_hello7Output to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of Nested_nestedx2_hello7Output
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $Nested_nestedx2_hello7OutputCopyWith<Nested_nestedx2_hello7Output>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $Nested_nestedx2_hello7OutputCopyWith<$Res> {
+  factory $Nested_nestedx2_hello7OutputCopyWith(
+          Nested_nestedx2_hello7Output value,
+          $Res Function(Nested_nestedx2_hello7Output) then) =
+      _$Nested_nestedx2_hello7OutputCopyWithImpl<$Res,
+          Nested_nestedx2_hello7Output>;
+  @useResult
+  $Res call({bool hello});
+}
+
+/// @nodoc
+class _$Nested_nestedx2_hello7OutputCopyWithImpl<$Res,
+        $Val extends Nested_nestedx2_hello7Output>
+    implements $Nested_nestedx2_hello7OutputCopyWith<$Res> {
+  _$Nested_nestedx2_hello7OutputCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of Nested_nestedx2_hello7Output
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? hello = null,
+  }) {
+    return _then(_value.copyWith(
+      hello: null == hello
+          ? _value.hello
+          : hello // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$Nested_nestedx2_hello7OutputImplCopyWith<$Res>
+    implements $Nested_nestedx2_hello7OutputCopyWith<$Res> {
+  factory _$$Nested_nestedx2_hello7OutputImplCopyWith(
+          _$Nested_nestedx2_hello7OutputImpl value,
+          $Res Function(_$Nested_nestedx2_hello7OutputImpl) then) =
+      __$$Nested_nestedx2_hello7OutputImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({bool hello});
+}
+
+/// @nodoc
+class __$$Nested_nestedx2_hello7OutputImplCopyWithImpl<$Res>
+    extends _$Nested_nestedx2_hello7OutputCopyWithImpl<$Res,
+        _$Nested_nestedx2_hello7OutputImpl>
+    implements _$$Nested_nestedx2_hello7OutputImplCopyWith<$Res> {
+  __$$Nested_nestedx2_hello7OutputImplCopyWithImpl(
+      _$Nested_nestedx2_hello7OutputImpl _value,
+      $Res Function(_$Nested_nestedx2_hello7OutputImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of Nested_nestedx2_hello7Output
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? hello = null,
+  }) {
+    return _then(_$Nested_nestedx2_hello7OutputImpl(
+      hello: null == hello
+          ? _value.hello
+          : hello // ignore: cast_nullable_to_non_nullable
+              as bool,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$Nested_nestedx2_hello7OutputImpl
+    implements _Nested_nestedx2_hello7Output {
+  _$Nested_nestedx2_hello7OutputImpl({required this.hello});
+
+  factory _$Nested_nestedx2_hello7OutputImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$Nested_nestedx2_hello7OutputImplFromJson(json);
+
+  @override
+  final bool hello;
+
+  @override
+  String toString() {
+    return 'Nested_nestedx2_hello7Output(hello: $hello)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$Nested_nestedx2_hello7OutputImpl &&
+            (identical(other.hello, hello) || other.hello == hello));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, hello);
+
+  /// Create a copy of Nested_nestedx2_hello7Output
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$Nested_nestedx2_hello7OutputImplCopyWith<
+          _$Nested_nestedx2_hello7OutputImpl>
+      get copyWith => __$$Nested_nestedx2_hello7OutputImplCopyWithImpl<
+          _$Nested_nestedx2_hello7OutputImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$Nested_nestedx2_hello7OutputImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Nested_nestedx2_hello7Output
+    implements Nested_nestedx2_hello7Output {
+  factory _Nested_nestedx2_hello7Output({required final bool hello}) =
+      _$Nested_nestedx2_hello7OutputImpl;
+
+  factory _Nested_nestedx2_hello7Output.fromJson(Map<String, dynamic> json) =
+      _$Nested_nestedx2_hello7OutputImpl.fromJson;
+
+  @override
+  bool get hello;
+
+  /// Create a copy of Nested_nestedx2_hello7Output
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$Nested_nestedx2_hello7OutputImplCopyWith<
+          _$Nested_nestedx2_hello7OutputImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}

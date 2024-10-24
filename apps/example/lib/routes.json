@@ -16,5 +16,29 @@
       "$schema": "http://json-schema.org/draft-07/schema#"
     },
     "output": null
+  },
+  "nested.hello2": {
+    "path": "nested.hello2",
+    "routeType": "mutation",
+    "input": null,
+    "output": null
+  },
+  "nested.nestedx2.hello7": {
+    "path": "nested.nestedx2.hello7",
+    "routeType": "mutation",
+    "input": null,
+    "output": {
+      "type": "object",
+      "properties": {
+        "hello": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "hello"
+      ],
+      "additionalProperties": false,
+      "$schema": "http://json-schema.org/draft-07/schema#"
+    }
   }
 }
