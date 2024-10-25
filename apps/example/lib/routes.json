@@ -1,17 +1,28 @@
 {
   "hello": {
     "path": "hello",
-    "routeType": "mutation",
+    "routeType": "query",
     "input": {
       "type": "object",
       "properties": {
         "hello": {
           "type": "string"
+        },
+        "works": {
+          "type": "object",
+          "properties": {
+            "yes": {
+              "type": "boolean"
+            },
+            "no": {
+              "type": "boolean"
+            }
+          },
+          "required": ["yes", "no"],
+          "additionalProperties": false
         }
       },
-      "required": [
-        "hello"
-      ],
+      "required": ["hello", "works"],
       "additionalProperties": false,
       "$schema": "http://json-schema.org/draft-07/schema#"
     },
@@ -20,7 +31,29 @@
   "nested.hello2": {
     "path": "nested.hello2",
     "routeType": "mutation",
-    "input": null,
+    "input": {
+      "allOf": [
+        {
+          "type": "object",
+          "properties": {
+            "userId": {
+              "type": "string"
+            }
+          },
+          "required": ["userId"]
+        },
+        {
+          "type": "object",
+          "properties": {
+            "listId": {
+              "type": "string"
+            }
+          },
+          "required": ["listId"]
+        }
+      ],
+      "$schema": "http://json-schema.org/draft-07/schema#"
+    },
     "output": null
   },
   "nested.nestedx2.hello7": {
@@ -34,9 +67,7 @@
           "type": "boolean"
         }
       },
-      "required": [
-        "hello"
-      ],
+      "required": ["hello"],
       "additionalProperties": false,
       "$schema": "http://json-schema.org/draft-07/schema#"
     }

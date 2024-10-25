@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
@@ -48,15 +49,19 @@ class TRPCModelsBuilder extends GeneratorForAnnotation<TrpcGenerator> {
       if (route["input"] != null) {
         final inputSchema = route["input"];
 
-        _generateFreezedClass(
-            "$classPrefix${routeName}Input", inputSchema, output);
+        final classOutput = await _generateFreezedClass(
+            "$classPrefix${routeName}Input", inputSchema);
+
+        output.writeln(classOutput.toString());
       }
 
       if (route["output"] != null) {
         final outputSchema = route["output"];
 
-        _generateFreezedClass(
-            "$classPrefix${routeName}Output", outputSchema, output);
+        final classOutput = await _generateFreezedClass(
+            "$classPrefix${routeName}Output", outputSchema);
+
+        output.writeln(classOutput.toString());
       }
     }
 
@@ -71,57 +76,51 @@ class TRPCModelsBuilder extends GeneratorForAnnotation<TrpcGenerator> {
   }
 
   // Generate Freezed class based on schema
-  void _generateFreezedClass(
-      String className, Map<String, dynamic>? schema, StringBuffer output) {
-    if (schema != null && schema.containsKey('properties')) {
-      output.writeln("@freezed");
-      output.writeln(
-          "${indentation}class ${capitalizeFirstLetter(className)} with _\$${capitalizeFirstLetter(className)}{");
-      output.writeln(
-          "${indentation * 2}factory ${capitalizeFirstLetter(className)}({");
-      _generateSchemaFields(
-          schema['properties'], schema['required'] ?? [], output);
-      output.writeln(
-          "${indentation * 2}}) = _${capitalizeFirstLetter(className)};");
-      output.writeln(
-          "${indentation * 2}factory ${capitalizeFirstLetter(className)}.fromJson(Map<String, dynamic> json) => _\$${capitalizeFirstLetter(className)}FromJson(json);");
-      output.writeln("$indentation}");
-      output.writeln();
-    }
-  }
+  Future<StringBuffer> _generateFreezedClass(
+      String className, Map<String, dynamic>? schema) async {
+    StringBuffer output = StringBuffer();
 
-  // Generate schema fields
-  void _generateSchemaFields(Map<String, dynamic> properties,
-      List<dynamic> requiredFields, StringBuffer output) {
-    for (var entry in properties.entries) {
-      final fieldName = entry.key;
-      final fieldSchema = entry.value;
-      final fieldType = _zodTypeToDataType(fieldSchema);
-      final isRequired = requiredFields.contains(fieldName) ? "required" : "";
+    try {
+      Process quicktype = await Process.start('bunx', [
+        'quicktype',
+        '--lang',
+        'dart',
+        '--src-lang',
+        'schema',
+        '-t',
+        className,
+        '--just-types',
+        '--use-freezed'
+      ]);
 
-      output.writeln("${indentation * 3}$isRequired $fieldType $fieldName,");
-    }
-  }
+      // Write the schema to stdin and close it
+      quicktype.stdin.writeln(json.encode(schema));
+      await quicktype.stdin.close();
 
-  // Map Zod types to Dart types
-  String _zodTypeToDataType(Map<String, dynamic> zodType) {
-    switch (zodType['type']) {
-      case 'string':
-        return 'String';
-      case 'number':
-        return 'double';
-      case 'boolean':
-        return 'bool';
-      case 'array':
-        final innerType = _zodTypeToDataType(zodType['items']);
-        return 'List<$innerType>';
-      case 'object':
-        return 'Map<String, dynamic>';
-      case 'union':
-        return 'dynamic';
-      default:
-        throw FormatException('Unsupported Zod type: ${zodType['type']}');
+      // Read the output
+      await for (var line in quicktype.stdout
+          .transform(utf8.decoder)
+          .transform(const LineSplitter())) {
+        output.writeln(line);
+      }
+
+      // Read any errors
+      String errors = await quicktype.stderr.transform(utf8.decoder).join();
+      if (errors.isNotEmpty) {
+        print('Quicktype errors: $errors');
+      }
+
+      // Wait for the process to exit
+      int exitCode = await quicktype.exitCode;
+
+      if (exitCode != 0) {
+        throw Exception('Quicktype failed with exit code $exitCode');
+      }
+    } catch (e) {
+      print('Error running quicktype: $e');
     }
+
+    return output;
   }
 
   String capitalizeFirstLetter(String input) {

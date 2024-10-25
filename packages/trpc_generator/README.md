@@ -14,3 +14,7 @@ and the Flutter guide for
 # trpc_generator
 
 Package that utilizes `trpc_client` and `trpc-extractor` to map TRPC Typescript routes and types to Dart.
+
+## Requirements
+
+- Requires you to have Bun installed. [(Click here for installation)](https://bun.sh/docs/installation)

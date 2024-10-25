@@ -61,8 +61,6 @@ class TRPCRoutesBuilder extends GeneratorForAnnotation<TrpcGenerator> {
       }
     }
 
-    print("Nested routes: $nestedRoutes");
-
     // Validate the router data
     validateRouterData(routerData);
 

@@ -10,18 +10,31 @@ part of 'trpc.dart';
 
 @freezed
 class HelloInput with _$HelloInput {
-  factory HelloInput({
+  const factory HelloInput({
     required String hello,
+    required Works works,
   }) = _HelloInput;
-  factory HelloInput.fromJson(Map<String, dynamic> json) =>
-      _$HelloInputFromJson(json);
 }
 
 @freezed
-class Nested_nestedx2_hello7Output with _$Nested_nestedx2_hello7Output {
-  factory Nested_nestedx2_hello7Output({
+class Works with _$Works {
+  const factory Works({
+    required bool no,
+    required bool yes,
+  }) = _Works;
+}
+
+@freezed
+class NestedHello2Input with _$NestedHello2Input {
+  const factory NestedHello2Input({
+    required String userId,
+    required String listId,
+  }) = _NestedHello2Input;
+}
+
+@freezed
+class NestedNestedx2Hello7Output with _$NestedNestedx2Hello7Output {
+  const factory NestedNestedx2Hello7Output({
     required bool hello,
-  }) = _Nested_nestedx2_hello7Output;
-  factory Nested_nestedx2_hello7Output.fromJson(Map<String, dynamic> json) =>
-      _$Nested_nestedx2_hello7OutputFromJson(json);
+  }) = _NestedNestedx2Hello7Output;
 }

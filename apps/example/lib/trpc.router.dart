@@ -11,8 +11,10 @@ part of 'trpc.dart';
 class _R$hello {
   final TRPCClient _client;
   const _R$hello(this._client);
-  Future<void> mutate(HelloInput input) async {
-    final response = await _client.mutate('hello', payload: input.toJson());
+  Future<void> query(HelloInput input) async {
+    final response = await _client.query(
+        'MapEntry(hello: {path: hello, routeType: query, input: {type: object, properties: {hello: {type: string}, works: {type: object, properties: {yes: {type: boolean}, no: {type: boolean}}, required: [yes, no], additionalProperties: false}}, required: [hello, works], additionalProperties: false, $schema: http://json-schema.org/draft-07/schema#}, output: null})',
+        payload: input.toJson());
     final returnData = response.unwrap();
   }
 }
@@ -20,8 +22,9 @@ class _R$hello {
 class _R$nested_hello2 {
   final TRPCClient _client;
   const _R$nested_hello2(this._client);
-  Future<void> mutate() async {
-    final response = await _client.mutate('nested.hello2');
+  Future<void> mutate(Nested_hello2Input input) async {
+    final response =
+        await _client.mutate('nested.hello2', payload: input.toJson());
     final returnData = response.unwrap();
   }
 }

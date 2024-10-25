@@ -16,17 +16,28 @@ const t = initTRPC.create({
  */
 export const router = t.router;
 export const publicProcedure = t.procedure;
+export const protectedProcedure = t.procedure.input(
+  z.object({
+    userId: z.string(),
+  })
+);
 
 export const appRouter = router({
   hello: publicProcedure
     .input(
       z.object({
         hello: z.string(),
+        works: z.object({
+          yes: z.boolean(),
+          no: z.boolean(),
+        }),
       })
     )
     .query(() => ({ hello: "world" })),
   nested: router({
-    hello2: publicProcedure.mutation(() => ({ hello: "world" })),
+    hello2: protectedProcedure
+      .input(z.object({ listId: z.string() }))
+      .mutation(() => ({ hello: "world" })),
     nestedx2: router({
       hello7: publicProcedure
         .output(z.object({ hello: z.boolean() }))
