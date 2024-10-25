@@ -3,7 +3,8 @@
   "module": "src/index.ts",
   "scripts": {
     "start": "bun run src/index.ts",
-    "dev": "bun run --watch src/index.ts"
+    "dev": "bun run --watch src/index.ts",
+    "extract": "bunx trpc-extractor -i src/router.ts -o ../example/lib/routes.json -w"
   },
   "type": "module",
   "dependencies": {
