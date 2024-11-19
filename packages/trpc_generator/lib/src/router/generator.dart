@@ -124,7 +124,7 @@ class TRPCRoutesBuilder extends GeneratorForAnnotation<TrpcGenerator> {
         output.writeln(
             "${indentation}Future<$outputType> query(${hasInputData ? "$inputType input" : ""}) async {");
         output.writeln(
-            "${indentation * 2}final response = await _client.query('$route'${hasInputData ? ", payload: input.toJson()" : ""});");
+            "${indentation * 2}final response = await _client.query('$routePath'${hasInputData ? ", payload: input.toJson()" : ""});");
         output
             .writeln("${indentation * 2}final returnData = response.unwrap();");
 

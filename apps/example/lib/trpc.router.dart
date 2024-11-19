@@ -12,9 +12,7 @@ class _R$hello {
   final TRPCClient _client;
   const _R$hello(this._client);
   Future<void> query(HelloInput input) async {
-    final response = await _client.query(
-        'MapEntry(hello: {path: hello, routeType: query, input: {type: object, properties: {hello: {type: string}, works: {type: object, properties: {yes: {type: boolean}, no: {type: boolean}}, required: [yes, no], additionalProperties: false}}, required: [hello, works], additionalProperties: false, $schema: http://json-schema.org/draft-07/schema#}, output: null})',
-        payload: input.toJson());
+    final response = await _client.query('hello', payload: input.toJson());
     final returnData = response.unwrap();
   }
 }
