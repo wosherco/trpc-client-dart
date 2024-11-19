@@ -14,10 +14,17 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
+HelloInput _$HelloInputFromJson(Map<String, dynamic> json) {
+  return _HelloInput.fromJson(json);
+}
+
 /// @nodoc
 mixin _$HelloInput {
   String get hello => throw _privateConstructorUsedError;
   Works get works => throw _privateConstructorUsedError;
+
+  /// Serializes this HelloInput to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of HelloInput
   /// with the given fields replaced by the non-null parameter values.
@@ -122,9 +129,12 @@ class __$$HelloInputImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$HelloInputImpl implements _HelloInput {
   const _$HelloInputImpl({required this.hello, required this.works});
+
+  factory _$HelloInputImpl.fromJson(Map<String, dynamic> json) =>
+      _$$HelloInputImplFromJson(json);
 
   @override
   final String hello;
@@ -145,6 +155,7 @@ class _$HelloInputImpl implements _HelloInput {
             (identical(other.works, works) || other.works == works));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, hello, works);
 
@@ -155,12 +166,22 @@ class _$HelloInputImpl implements _HelloInput {
   @pragma('vm:prefer-inline')
   _$$HelloInputImplCopyWith<_$HelloInputImpl> get copyWith =>
       __$$HelloInputImplCopyWithImpl<_$HelloInputImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$HelloInputImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _HelloInput implements HelloInput {
   const factory _HelloInput(
       {required final String hello,
       required final Works works}) = _$HelloInputImpl;
+
+  factory _HelloInput.fromJson(Map<String, dynamic> json) =
+      _$HelloInputImpl.fromJson;
 
   @override
   String get hello;
@@ -175,10 +196,17 @@ abstract class _HelloInput implements HelloInput {
       throw _privateConstructorUsedError;
 }
 
+Works _$WorksFromJson(Map<String, dynamic> json) {
+  return _Works.fromJson(json);
+}
+
 /// @nodoc
 mixin _$Works {
   bool get no => throw _privateConstructorUsedError;
   bool get yes => throw _privateConstructorUsedError;
+
+  /// Serializes this Works to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of Works
   /// with the given fields replaced by the non-null parameter values.
@@ -265,9 +293,12 @@ class __$$WorksImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$WorksImpl implements _Works {
   const _$WorksImpl({required this.no, required this.yes});
+
+  factory _$WorksImpl.fromJson(Map<String, dynamic> json) =>
+      _$$WorksImplFromJson(json);
 
   @override
   final bool no;
@@ -288,6 +319,7 @@ class _$WorksImpl implements _Works {
             (identical(other.yes, yes) || other.yes == yes));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, no, yes);
 
@@ -298,11 +330,20 @@ class _$WorksImpl implements _Works {
   @pragma('vm:prefer-inline')
   _$$WorksImplCopyWith<_$WorksImpl> get copyWith =>
       __$$WorksImplCopyWithImpl<_$WorksImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$WorksImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _Works implements Works {
   const factory _Works({required final bool no, required final bool yes}) =
       _$WorksImpl;
+
+  factory _Works.fromJson(Map<String, dynamic> json) = _$WorksImpl.fromJson;
 
   @override
   bool get no;
@@ -317,10 +358,17 @@ abstract class _Works implements Works {
       throw _privateConstructorUsedError;
 }
 
+NestedHello2Input _$NestedHello2InputFromJson(Map<String, dynamic> json) {
+  return _NestedHello2Input.fromJson(json);
+}
+
 /// @nodoc
 mixin _$NestedHello2Input {
   String get userId => throw _privateConstructorUsedError;
   String get listId => throw _privateConstructorUsedError;
+
+  /// Serializes this NestedHello2Input to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of NestedHello2Input
   /// with the given fields replaced by the non-null parameter values.
@@ -410,9 +458,12 @@ class __$$NestedHello2InputImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$NestedHello2InputImpl implements _NestedHello2Input {
   const _$NestedHello2InputImpl({required this.userId, required this.listId});
+
+  factory _$NestedHello2InputImpl.fromJson(Map<String, dynamic> json) =>
+      _$$NestedHello2InputImplFromJson(json);
 
   @override
   final String userId;
@@ -433,6 +484,7 @@ class _$NestedHello2InputImpl implements _NestedHello2Input {
             (identical(other.listId, listId) || other.listId == listId));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, userId, listId);
 
@@ -444,12 +496,22 @@ class _$NestedHello2InputImpl implements _NestedHello2Input {
   _$$NestedHello2InputImplCopyWith<_$NestedHello2InputImpl> get copyWith =>
       __$$NestedHello2InputImplCopyWithImpl<_$NestedHello2InputImpl>(
           this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$NestedHello2InputImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _NestedHello2Input implements NestedHello2Input {
   const factory _NestedHello2Input(
       {required final String userId,
       required final String listId}) = _$NestedHello2InputImpl;
+
+  factory _NestedHello2Input.fromJson(Map<String, dynamic> json) =
+      _$NestedHello2InputImpl.fromJson;
 
   @override
   String get userId;
@@ -464,9 +526,17 @@ abstract class _NestedHello2Input implements NestedHello2Input {
       throw _privateConstructorUsedError;
 }
 
+NestedNestedx2Hello7Output _$NestedNestedx2Hello7OutputFromJson(
+    Map<String, dynamic> json) {
+  return _NestedNestedx2Hello7Output.fromJson(json);
+}
+
 /// @nodoc
 mixin _$NestedNestedx2Hello7Output {
   bool get hello => throw _privateConstructorUsedError;
+
+  /// Serializes this NestedNestedx2Hello7Output to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of NestedNestedx2Hello7Output
   /// with the given fields replaced by the non-null parameter values.
@@ -551,9 +621,13 @@ class __$$NestedNestedx2Hello7OutputImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$NestedNestedx2Hello7OutputImpl implements _NestedNestedx2Hello7Output {
   const _$NestedNestedx2Hello7OutputImpl({required this.hello});
+
+  factory _$NestedNestedx2Hello7OutputImpl.fromJson(
+          Map<String, dynamic> json) =>
+      _$$NestedNestedx2Hello7OutputImplFromJson(json);
 
   @override
   final bool hello;
@@ -571,6 +645,7 @@ class _$NestedNestedx2Hello7OutputImpl implements _NestedNestedx2Hello7Output {
             (identical(other.hello, hello) || other.hello == hello));
   }
 
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, hello);
 
@@ -582,12 +657,22 @@ class _$NestedNestedx2Hello7OutputImpl implements _NestedNestedx2Hello7Output {
   _$$NestedNestedx2Hello7OutputImplCopyWith<_$NestedNestedx2Hello7OutputImpl>
       get copyWith => __$$NestedNestedx2Hello7OutputImplCopyWithImpl<
           _$NestedNestedx2Hello7OutputImpl>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$NestedNestedx2Hello7OutputImplToJson(
+      this,
+    );
+  }
 }
 
 abstract class _NestedNestedx2Hello7Output
     implements NestedNestedx2Hello7Output {
   const factory _NestedNestedx2Hello7Output({required final bool hello}) =
       _$NestedNestedx2Hello7OutputImpl;
+
+  factory _NestedNestedx2Hello7Output.fromJson(Map<String, dynamic> json) =
+      _$NestedNestedx2Hello7OutputImpl.fromJson;
 
   @override
   bool get hello;

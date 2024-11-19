@@ -14,6 +14,9 @@ class HelloInput with _$HelloInput {
     required String hello,
     required Works works,
   }) = _HelloInput;
+
+  factory HelloInput.fromJson(Map<String, dynamic> json) =>
+      _$HelloInputFromJson(json);
 }
 
 @freezed
@@ -22,6 +25,8 @@ class Works with _$Works {
     required bool no,
     required bool yes,
   }) = _Works;
+
+  factory Works.fromJson(Map<String, dynamic> json) => _$WorksFromJson(json);
 }
 
 @freezed
@@ -30,6 +35,9 @@ class NestedHello2Input with _$NestedHello2Input {
     required String userId,
     required String listId,
   }) = _NestedHello2Input;
+
+  factory NestedHello2Input.fromJson(Map<String, dynamic> json) =>
+      _$NestedHello2InputFromJson(json);
 }
 
 @freezed
@@ -37,4 +45,7 @@ class NestedNestedx2Hello7Output with _$NestedNestedx2Hello7Output {
   const factory NestedNestedx2Hello7Output({
     required bool hello,
   }) = _NestedNestedx2Hello7Output;
+
+  factory NestedNestedx2Hello7Output.fromJson(Map<String, dynamic> json) =>
+      _$NestedNestedx2Hello7OutputFromJson(json);
 }
