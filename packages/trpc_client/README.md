@@ -18,6 +18,7 @@ A simple trpc client for Dart Applications. It's minimal, just two dependencies 
 ## Features
 
 - Run Query and Mutate operations against your tRPC server (expressjs, Next.js, Cloudflare Worker, ...)
+- Generate bindings from your tRPC router, to have type safety on your queries and mutations. [More info here](https://github.com/wosherco/trpc-client-dart/).
 
 ## Usage
 
