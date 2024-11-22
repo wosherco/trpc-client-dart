@@ -5,7 +5,6 @@ import 'package:build/build.dart';
 import 'package:build/src/builder/build_step.dart';
 import 'package:source_gen/source_gen.dart';
 import 'package:trpc_client_annotations/trpc_client_annotations.dart';
-import 'package:path/path.dart' as path;
 
 class TRPCRoutesBuilder extends GeneratorForAnnotation<TrpcGenerator> {
   final String classPrefix = "";

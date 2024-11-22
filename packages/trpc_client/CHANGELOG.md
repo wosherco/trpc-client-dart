@@ -36,3 +36,7 @@
 
 - Added `unwrap` method to `TRPCResponse` to just grab the data and throw any TRPCErrors.
 - Documented some important parts of the library.
+
+## 0.4.0
+
+- Added tRPC Generator to generate type-safe bindings from your tRPC router. [More info here](https://github.com/wosherco/trpc-client-dart).
