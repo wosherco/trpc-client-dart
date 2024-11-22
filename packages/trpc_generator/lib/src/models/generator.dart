@@ -80,9 +80,12 @@ class TRPCModelsBuilder extends GeneratorForAnnotation<TrpcGenerator> {
       String className, Map<String, dynamic>? schema) async {
     StringBuffer output = StringBuffer();
 
+    // Guarantee that the first letter of the class name is capitalized
+    className = capitalizeFirstLetter(className);
+
     try {
       Process quicktype = await Process.start('bunx', [
-        'quicktype-wosherco@23.0.171-fix3',
+        'quicktype-wosherco@23.0.171-fix4',
         '--lang',
         'dart',
         '--src-lang',
