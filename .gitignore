@@ -8,3 +8,8 @@ pubspec.lock
 
 # Melos
 pubspec_overrides.yaml
+
+*.freezed.dart
+*.g.dart
+*.models.dart
+*.router.dart
