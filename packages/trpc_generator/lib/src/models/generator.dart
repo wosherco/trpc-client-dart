@@ -14,8 +14,6 @@ class TRPCModelsBuilder extends GeneratorForAnnotation<TrpcGenerator> {
   @override
   generateForAnnotatedElement(
       Element element, ConstantReader annotation, BuildStep buildStep) async {
-    final routesFilePath = annotation.read('routesFilePath').stringValue;
-
     // Get the class name of the current file being processed
     final className = element.name;
 
@@ -23,14 +21,63 @@ class TRPCModelsBuilder extends GeneratorForAnnotation<TrpcGenerator> {
       throw FormatException('Invalid router data: Missing class name.');
     }
 
-    // Parse the routes file
-    final jsonAssetId = AssetId.resolve(
-      Uri.parse(routesFilePath),
-      from: buildStep.inputId,
-    );
+    String jsonContent;
 
-    // Read the JSON file content
-    String jsonContent = await buildStep.readAsString(jsonAssetId);
+    if (annotation.read('routesFilePath').isNull) {
+      final routerFilePathVariable = annotation.read('routerFilePath');
+      final routerVariableNameVariable = annotation.read('routerVariableName');
+
+      if (routerFilePathVariable.isNull) {
+        throw FormatException('Invalid router data: Missing routerFilePath.');
+      }
+
+      // Using the extractor directly
+      try {
+        final args = [
+          'trpc-extractor@1.1.0',
+          '-i',
+          routerFilePathVariable.stringValue,
+        ];
+
+        if (!routerVariableNameVariable.isNull) {
+          args.add('-r');
+          args.add(routerVariableNameVariable.stringValue);
+        }
+
+        print('Running trpc-extractor with args: ${args.join(' ')}');
+        Process trpcExtractor = await Process.start('bunx', args);
+
+        jsonContent = await trpcExtractor.stdout.transform(utf8.decoder).join();
+
+        // Read any errors
+        String errors =
+            await trpcExtractor.stderr.transform(utf8.decoder).join();
+        if (errors.isNotEmpty) {
+          print('trpc-extractor errors: $errors');
+        }
+
+        // Wait for the process to exit
+        int exitCode = await trpcExtractor.exitCode;
+
+        if (exitCode != 0) {
+          throw Exception('trpc-extractor failed with exit code $exitCode');
+        }
+      } catch (e) {
+        print('Error running trpc-extractor: $e');
+        rethrow;
+      }
+    } else {
+      final routesFilePath = annotation.read('routesFilePath').stringValue;
+
+      // Parse the routes file
+      final jsonAssetId = AssetId.resolve(
+        Uri.parse(routesFilePath),
+        from: buildStep.inputId,
+      );
+
+      // Read the JSON file content
+      jsonContent = await buildStep.readAsString(jsonAssetId);
+    }
 
     // Parse the JSON content
     final Map<String, dynamic> routerData = json.decode(jsonContent);
