@@ -21,11 +21,11 @@ Once the json with all the routes is generated, you will need to install a few d
 ```yaml
 dependencies:
   trpc_client: ^0.4.0
-  trpc_client_annotations: ^0.1.0
+  trpc_client_annotations: ^0.1.1
 
 dev_dependencies:
   build_runner: ^2.4.13
-  trpc_client_generator: ^0.1.0
+  trpc_client_generator: ^0.1.1
 ```
 
 Then, create a file on your project to run the generator:
@@ -47,6 +47,24 @@ class RoutedTrpcClient extends _RTR$Router {
   RoutedTrpcClient(super.client);
 }
 ```
+
+> Or using the typescript file that contains the router directly:
+>
+> ```dart
+> import 'package:trpc_client_annotations/trpc_client_annotations.dart';
+> import 'package:freezed_annotation/freezed_annotation.dart';
+> import 'package:trpc_client/trpc_client.dart';
+> 
+> part 'trpc.freezed.dart';
+> part 'trpc.models.dart';
+> part 'trpc.router.dart';
+> part 'trpc.g.dart';
+> 
+> @TrpcGenerator(routerFilePath: "../trpc-server/src/router.ts")
+> class RoutedTrpcClient extends _RTR$Router {
+>   RoutedTrpcClient(super.client);
+> }
+> ```
 
 Finally, run the generator:
 
