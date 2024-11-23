@@ -25,7 +25,7 @@ dependencies:
 
 dev_dependencies:
   build_runner: ^2.4.13
-  trpc_client_generator: ^0.1.1
+  trpc_client_generator: ^0.1.2
 ```
 
 Then, create a file on your project to run the generator:
@@ -54,12 +54,12 @@ class RoutedTrpcClient extends _RTR$Router {
 > import 'package:trpc_client_annotations/trpc_client_annotations.dart';
 > import 'package:freezed_annotation/freezed_annotation.dart';
 > import 'package:trpc_client/trpc_client.dart';
-> 
+>
 > part 'trpc.freezed.dart';
 > part 'trpc.models.dart';
 > part 'trpc.router.dart';
 > part 'trpc.g.dart';
-> 
+>
 > @TrpcGenerator(routerFilePath: "../trpc-server/src/router.ts")
 > class RoutedTrpcClient extends _RTR$Router {
 >   RoutedTrpcClient(super.client);

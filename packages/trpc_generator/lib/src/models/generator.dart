@@ -34,7 +34,7 @@ class TRPCModelsBuilder extends GeneratorForAnnotation<TrpcGenerator> {
       // Using the extractor directly
       try {
         final args = [
-          'trpc-extractor@1.1.0',
+          'trpc-extractor@1.2.0',
           '-i',
           routerFilePathVariable.stringValue,
         ];
