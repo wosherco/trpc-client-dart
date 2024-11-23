@@ -7,7 +7,12 @@ part 'trpc.models.dart';
 part 'trpc.router.dart';
 part 'trpc.g.dart';
 
-@TrpcGenerator(routesFilePath: "routes.json")
+// @TrpcGenerator(routesFilePath: "routes.json")
+// class RoutedTrpcClient extends _RTR$Router {
+//   RoutedTrpcClient(super.client);
+// }
+
+@TrpcGenerator(routerFilePath: "../trpc-server/src/router.ts")
 class RoutedTrpcClient extends _RTR$Router {
   RoutedTrpcClient(super.client);
 }
