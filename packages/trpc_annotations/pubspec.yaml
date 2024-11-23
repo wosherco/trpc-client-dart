@@ -1,6 +1,6 @@
 name: trpc_client_annotations
 description: Annotations for trpc_client_generator
-version: 0.1.0
+version: 0.1.1
 repository: https://github.com/wosherco/trpc-client-dart
 issue_tracker: https://github.com/wosherco/trpc-client-dart/issues
 homepage: https://github.com/wosherco/trpc-client-dart
