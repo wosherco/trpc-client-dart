@@ -25,7 +25,7 @@ dependencies:
 
 dev_dependencies:
   build_runner: ^2.4.13
-  trpc_client_generator: ^0.1.2
+  trpc_client_generator: ^0.1.3
 ```
 
 Then, create a file on your project to run the generator:
