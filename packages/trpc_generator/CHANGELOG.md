@@ -9,3 +9,7 @@
 ## 0.1.2
 
 - Using trpc-extractor@1.2.0 to generate the routes. (Adds compatibility with tRPC v11)
+
+## 0.1.3
+
+- Using trpc-extractor@1.2.1. (1.2.0 was not working)
