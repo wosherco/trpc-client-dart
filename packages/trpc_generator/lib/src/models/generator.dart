@@ -89,7 +89,7 @@ class TRPCModelsBuilder extends GeneratorForAnnotation<TrpcGenerator> {
     StringBuffer output = StringBuffer();
 
     // Generating Freezed classes for inputs and outputs
-    for (var subRouteEntry in routerData.entries) {
+    for (var subRouteEntry in routerData["routes"].entries) {
       final route = subRouteEntry.value;
       final String routeName = route['path'].replaceAll('.', '_');
 

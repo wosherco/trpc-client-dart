@@ -113,7 +113,7 @@ class TRPCRoutesBuilder extends GeneratorForAnnotation<TrpcGenerator> {
     // Generate the header
     StringBuffer output = StringBuffer();
 
-    _generateRouteClasses(routerData, output);
+    _generateRouteClasses(routerData["routes"], output);
 
     _generateNestedRouteClasses(nestedRoutes, output);
 
