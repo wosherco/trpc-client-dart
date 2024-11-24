@@ -81,15 +81,16 @@ class TRPCModelsBuilder extends GeneratorForAnnotation<TrpcGenerator> {
 
     // Parse the JSON content
     final Map<String, dynamic> routerData = json.decode(jsonContent);
+    final Map<String, dynamic> routes = routerData["routes"];
 
     // Validate the router data
-    validateRouterData(routerData);
+    validateRouterData(routes);
 
     // Generate the header
     StringBuffer output = StringBuffer();
 
     // Generating Freezed classes for inputs and outputs
-    for (var subRouteEntry in routerData["routes"].entries) {
+    for (var subRouteEntry in routes.entries) {
       final route = subRouteEntry.value;
       final String routeName = route['path'].replaceAll('.', '_');
 

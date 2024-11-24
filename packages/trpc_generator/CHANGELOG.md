@@ -17,3 +17,7 @@
 ## 0.1.4
 
 - Fixed the router data validation.
+
+## 0.1.5
+
+- Fixed the router data validation.

@@ -80,11 +80,12 @@ class TRPCRoutesBuilder extends GeneratorForAnnotation<TrpcGenerator> {
 
     // Parse the JSON content
     final Map<String, dynamic> routerData = json.decode(jsonContent);
+    final Map<String, dynamic> routes = routerData["routes"];
 
     // We need to create nested routes. We will achieve this by creating a class for each route that starts with "R$", and then a new router class for each nested route that contains lazy getters for the routes.
     final Map<String, dynamic> nestedRoutes = {};
 
-    for (var route in routerData.entries) {
+    for (var route in routes.entries) {
       final routeName = route.key;
 
       final splittedRouteName = routeName.split('.');
@@ -108,12 +109,11 @@ class TRPCRoutesBuilder extends GeneratorForAnnotation<TrpcGenerator> {
     }
 
     // Validate the router data
-    validateRouterData(routerData);
+    validateRouterData(routes);
 
     // Generate the header
     StringBuffer output = StringBuffer();
-
-    _generateRouteClasses(routerData["routes"], output);
+    _generateRouteClasses(routes, output);
 
     _generateNestedRouteClasses(nestedRoutes, output);
 
