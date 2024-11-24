@@ -13,3 +13,7 @@
 ## 0.1.3
 
 - Using trpc-extractor@1.2.1. (1.2.0 was not working)
+
+## 0.1.4
+
+- Fixed the router data validation.
