@@ -33,7 +33,7 @@ class TRPCRoutesBuilder extends GeneratorForAnnotation<TrpcGenerator> {
       // Using the extractor directly
       try {
         final args = [
-          'trpc-extractor@1.2.1',
+          'trpc-extractor@latest',
           '-i',
           routerFilePathVariable.stringValue,
         ];

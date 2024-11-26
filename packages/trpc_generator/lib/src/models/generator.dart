@@ -34,7 +34,7 @@ class TRPCModelsBuilder extends GeneratorForAnnotation<TrpcGenerator> {
       // Using the extractor directly
       try {
         final args = [
-          'trpc-extractor@1.2.1',
+          'trpc-extractor@latest',
           '-i',
           routerFilePathVariable.stringValue,
         ];
@@ -133,7 +133,7 @@ class TRPCModelsBuilder extends GeneratorForAnnotation<TrpcGenerator> {
 
     try {
       Process quicktype = await Process.start('bunx', [
-        'quicktype-wosherco@23.0.171-fix4',
+        'quicktype-wosherco@latest',
         '--lang',
         'dart',
         '--src-lang',

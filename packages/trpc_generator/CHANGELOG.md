@@ -21,3 +21,7 @@
 ## 0.1.5
 
 - Fixed the router data validation.
+
+## 0.1.6
+
+- Updated quicktype to the latest version.
