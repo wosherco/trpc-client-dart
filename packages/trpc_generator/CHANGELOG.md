@@ -25,3 +25,7 @@
 ## 0.1.6
 
 - Updated quicktype to the latest version.
+
+## 0.1.7
+
+- Updated quicktype to the latest version. (Fixes conflicting enums)
