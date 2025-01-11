@@ -31,12 +31,18 @@ export const appRouter = router({
           yes: z.boolean(),
           no: z.boolean(),
         }),
+        date: z.enum(["today", "yesterday", "tomorrow"]),
       })
     )
     .query(() => ({ hello: "world" })),
   nested: router({
     hello2: protectedProcedure
-      .input(z.object({ listId: z.string() }))
+      .input(
+        z.object({
+          listId: z.string(),
+          date: z.enum(["today", "yesterday", "tomorrow"]),
+        })
+      )
       .mutation(() => ({ hello: "world" })),
     nestedx2: router({
       hello7: publicProcedure
