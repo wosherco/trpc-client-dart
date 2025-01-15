@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:analyzer/dart/element/element.dart';
 import 'package:build/build.dart';
@@ -10,6 +11,7 @@ import 'package:trpc_client_annotations/trpc_client_annotations.dart';
 class TRPCModelsBuilder extends GeneratorForAnnotation<TrpcGenerator> {
   final String classPrefix = "";
   final String indentation = "  ";
+  static int _enumSuffixCounter = 0;
 
   @override
   generateForAnnotatedElement(
@@ -148,10 +150,32 @@ class TRPCModelsBuilder extends GeneratorForAnnotation<TrpcGenerator> {
       quicktype.stdin.writeln(json.encode(schema));
       await quicktype.stdin.close();
 
-      // Read the output
-      await for (var line in quicktype.stdout
-          .transform(utf8.decoder)
-          .transform(const LineSplitter())) {
+      // Collect all lines
+      List<String> lines = await quicktype.stdout
+        .transform(utf8.decoder)
+        .transform(const LineSplitter())
+        .toList();
+
+      Map<String, String> enumRenames = {};
+
+      // First pass: collect enum renames
+      for (var line in lines) {
+        final enumMatch = RegExp(r'enum\s+(\w+)').firstMatch(line);
+        if (enumMatch != null) {
+          final enumSuffix = _enumSuffixCounter++;
+          final originalEnumName = enumMatch.group(1)!;
+          final newEnumName = '${originalEnumName}${enumSuffix}';
+          enumRenames[originalEnumName] = newEnumName;
+          line = line.replaceFirst('enum $originalEnumName', 'enum $newEnumName');
+        }
+      }
+
+      // Second pass: replace enum references
+      for (var line in lines) {
+        for (var entry in enumRenames.entries) {
+          line = line.replaceAll('${entry.key} ', ' ${entry.value} ');
+          line = line.replaceAll('${entry.key}?', ' ${entry.value}?');
+        }
         output.writeln(line);
       }
 
