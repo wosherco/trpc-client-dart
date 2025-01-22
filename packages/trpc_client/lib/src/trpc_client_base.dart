@@ -161,7 +161,7 @@ class TRPCException implements Exception {
 
   @override
   String toString() {
-    return "TRPCException: ${error.message}";
+    return "TRPCException: [${error.httpCode} ${error.errorCode}] ${error.message} ${error.path} ${error.stack}";
   }
 }
 
