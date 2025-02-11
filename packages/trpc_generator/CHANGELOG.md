@@ -35,3 +35,7 @@
 - [Updated quicktype to the latest version. (Fixes conflicting enums, fr this time)](https://github.com/wosherco/trpc-client-dart/pull/3)
 - [More verbose error messages.](https://github.com/wosherco/trpc-client-dart/issues/4)
 - [Fixed schema names being converted to camelCase.](https://github.com/wosherco/trpc-client-dart/issues/5)
+
+# 0.1.9
+
+- Fixed quicktype version.
