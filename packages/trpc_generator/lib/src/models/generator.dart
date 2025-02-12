@@ -6,6 +6,7 @@ import 'package:build/build.dart';
 import 'package:build/src/builder/build_step.dart';
 import 'package:source_gen/source_gen.dart';
 import 'package:trpc_client_annotations/trpc_client_annotations.dart';
+import 'package:pool/pool.dart';
 
 class TRPCModelsBuilder extends GeneratorForAnnotation<TrpcGenerator> {
   final String classPrefix = "";
@@ -90,28 +91,34 @@ class TRPCModelsBuilder extends GeneratorForAnnotation<TrpcGenerator> {
     StringBuffer output = StringBuffer();
 
     // Generating Freezed classes for inputs and outputs
+    final pool = Pool(10);
+    final futures = <Future<StringBuffer>>[];
+
     for (var subRouteEntry in routes.entries) {
       final route = subRouteEntry.value;
       final String routeName = route['path'].replaceAll('.', '_');
 
       if (route["input"] != null) {
         final inputSchema = route["input"];
-
-        final classOutput = await _generateFreezedClass(
-            "$classPrefix${routeName}Input", inputSchema);
-
-        output.writeln(classOutput.toString());
+        futures.add(pool.withResource(() => _generateFreezedClass(
+            "$classPrefix${routeName}Input", inputSchema)));
       }
 
       if (route["output"] != null) {
         final outputSchema = route["output"];
-
-        final classOutput = await _generateFreezedClass(
-            "$classPrefix${routeName}Output", outputSchema);
-
-        output.writeln(classOutput.toString());
+        futures.add(pool.withResource(() => _generateFreezedClass(
+            "$classPrefix${routeName}Output", outputSchema)));
       }
     }
+
+    // Wait for all generations to complete
+    final results = await Future.wait(futures);
+    for (final result in results) {
+      output.writeln(result.toString());
+    }
+
+    // Clean up
+    await pool.close();
 
     return output.toString();
   }
