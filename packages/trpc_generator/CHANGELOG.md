@@ -39,3 +39,9 @@
 # 0.1.9
 
 - Fixed quicktype version.
+
+# 0.1.10
+
+- Faster model build (using pool).
+- Fixed quicktype version.
+- Fixed null safety.
