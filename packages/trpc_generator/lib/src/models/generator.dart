@@ -140,7 +140,7 @@ class TRPCModelsBuilder extends GeneratorForAnnotation<TrpcGenerator> {
 
     try {
       Process quicktype = await Process.start('bunx', [
-        'quicktype-wosherco@23.0.173',
+        'quicktype-wosherco@23.0.174',
         '--lang',
         'dart',
         '--src-lang',
