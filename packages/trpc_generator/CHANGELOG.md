@@ -45,3 +45,9 @@
 - Faster model build (using pool).
 - Fixed quicktype version.
 - Fixed null safety.
+
+# 0.2.0
+
+- Removed Pooling for generator (was skipping some routes, it's not safe).
+- Using --bun to speed up quicktype.
+- BREAKING: Bumped quicktype (fixes parent name not being on children objects).
