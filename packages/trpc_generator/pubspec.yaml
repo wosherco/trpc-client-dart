@@ -11,7 +11,7 @@ environment:
 dependencies:
   trpc_client_annotations: ^0.1.1
   source_gen: ^1.5.0
-  analyzer: ">=5.2.0 <7.0.0"
+  analyzer: ">=5.2.0"
   json_annotation: ^4.8.1
   freezed_annotation: ^2.4.4
   build: ^2.4.1
